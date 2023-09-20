@@ -1,0 +1,53 @@
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef> id </th>
+    <td mat-cell *matCellDef="let item"> {{ item.id }} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="int">
+    <th mat-header-cell *matHeaderCellDef> Int </th>
+    <td mat-cell *matCellDef="let item"> {{ item.int }} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="float">
+    <th mat-header-cell *matHeaderCellDef> Float </th>
+    <td mat-cell *matCellDef="let item"> {{item.float}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="color">
+    <th mat-header-cell *matHeaderCellDef> Color </th>
+    <td mat-cell *matCellDef="let item">
+      <span [ngStyle]="{ 'background-color': item.color }">{{ item.color }}</span>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="child">
+    <th mat-header-cell *matHeaderCellDef> Child </th>
+    <td mat-cell *matCellDef="let item">
+      <table class="nested-table" mat-table [dataSource]="item.child">
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef> ID </th>
+          <td mat-cell *matCellDef="let entry"> {{ entry.id }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="color">
+          <th mat-header-cell *matHeaderCellDef> Color </th>
+          <td mat-cell *matCellDef="let entry">
+            <span [ngStyle]="{ 'background-color': entry.color }">{{ entry.color }}</span>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="['id', 'color']"></tr>
+        <tr class="nested-table-row" mat-row *matRowDef="let row; columns: ['id', 'color']"></tr>
+      </table>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+  <tr class="mat-row" *matNoDataRow>
+    <td class="mat-cell" colspan="4">No data</td>
+  </tr>
+</table>
+
