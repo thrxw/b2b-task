@@ -14,23 +14,32 @@ interface PostMessage {
 export class WorkerService {
   private worker: Worker;
   private dataEmitter = new Subject<DataItem[]>();
-  private additionalIds: string[] = []
+  private additionalIds: string[] = [];
+  private isProcessing = false;
 
   constructor() {
     this.worker = new Worker(new URL('./app.worker', import.meta.url));
     this.worker.addEventListener('message', ({ data }) => {
-      let displayDataSize = data.length > DISPLAY_ITEM_SIZE ? DISPLAY_ITEM_SIZE : data.length;
-      let newData: DataItem[] = [];
+      if (!this.isProcessing) {
+        this.isProcessing = true;
 
-      for (let i = 0; i < displayDataSize; i++) {
-        let item = this.additionalIds[i] ? {
-          ...data.pop(),
-          id: this.additionalIds[i]
-        } : data.pop();
-        newData.push(new Data(item));
+        setTimeout(() => {
+          this.isProcessing = false;
+        }, 100);
+
+        let displayDataSize = data.length > DISPLAY_ITEM_SIZE ? DISPLAY_ITEM_SIZE : data.length;
+        let newData: DataItem[] = [];
+
+        for (let i = 0; i < displayDataSize; i++) {
+          let item = this.additionalIds[i] ? {
+            ...data.pop(),
+            id: this.additionalIds[i]
+          } : data.pop();
+          newData.push(new Data(item));
+        }
+
+        this.dataEmitter.next(newData);
       }
-
-      this.dataEmitter.next(newData);
     });
   }
 
