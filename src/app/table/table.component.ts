@@ -9,4 +9,7 @@ import { DataItem } from "../types";
 export class TableComponent {
   @Input() dataSource!: DataItem[];
   displayedColumns: string[] = ['id', 'int', 'float', 'color', 'child'];
+  getNestedTableData(child: DataItem['child']): DataItem['child'][] {
+    return [{ id: child.id, color: child.color }]
+  }
 }

@@ -24,7 +24,7 @@
   <ng-container matColumnDef="child">
     <th mat-header-cell *matHeaderCellDef> Child </th>
     <td mat-cell *matCellDef="let item">
-      <table class="nested-table" mat-table [dataSource]="item.child">
+      <table class="nested-table" mat-table [dataSource]="getNestedTableData(item.child)">
         <ng-container matColumnDef="id">
           <th mat-header-cell *matHeaderCellDef> ID </th>
           <td mat-cell *matCellDef="let entry"> {{ entry.id }} </td>

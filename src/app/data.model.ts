@@ -1,35 +1,30 @@
+import {DataItem} from "./types";
+
 export class Data {
-  private readonly _id: number;
-  private readonly _int: number;
-  private readonly _float: number;
-  private readonly _color: string;
-  private readonly _child: any;
+  private readonly _data: DataItem;
 
-  constructor(data: any) {
-    this._id = data.id;
-    this._int = data.int;
-    this._float = data.float;
-    this._color = data.color;
-    this._child = data.child;
+  constructor(data: DataItem) {
+    this._data = data;
   }
 
-  get id(): number {
-    return this._id;
+  get id() {
+    return this._data.id;
   }
 
-  get int(): number {
-    return this._int;
+  get int() {
+    return this._data.int;
   }
 
-  get float(): number {
-    return this._float;
+  get float() {
+    return this._data.float;
   }
 
-  get color(): string {
-    return this._color;
+  get color() {
+    return this._data.color;
   }
 
   get child() {
-    return [{ id: this._child.id, color: this._child.color }];
+    // return [{ id: this._data.child.id, color: this._data.child.color }];
+    return this._data.child;
   }
 }
