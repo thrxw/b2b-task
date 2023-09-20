@@ -19,17 +19,6 @@ function simulatePseudoSocket() {
   let size = SIZE;
   let timer = TIMER;
 
-  setTimeout(function generate () {
-    let data: DataItem[] = [];
-
-    for (let i = 0; i < size; i++) {
-      data.push(generateRandomItem(i + 1));
-    }
-
-    postMessage(data);
-    setTimeout(generate, timer);
-  }, timer);
-
   addEventListener('message', ({ data }) => {
     if (data && typeof data === 'object') {
       const { action, value } = data;
@@ -44,6 +33,20 @@ function simulatePseudoSocket() {
       }
     }
   });
+  const generate = () => {
+    let data: DataItem[] = [];
+
+    for (let i = 0; i < size; i++) {
+      data.push(generateRandomItem(i + 1));
+    }
+
+    postMessage(data);
+
+    // timeout is used so as not to clog the queue of tasks, as can happen with an interval
+    setTimeout(generate, timer);
+  }
+
+  generate()
 }
 
 simulatePseudoSocket();

@@ -24,7 +24,7 @@ export class WorkerService {
         this.isProcessing = true;
 
         setTimeout(() => {
-          this.isProcessing = false;
+          this.isProcessing = false; // used to stop rerender more often than 100ms
         }, 100);
 
         let displayDataSize = data.length > DISPLAY_ITEM_SIZE ? DISPLAY_ITEM_SIZE : data.length;
